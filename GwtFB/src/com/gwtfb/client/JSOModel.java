@@ -16,6 +16,7 @@ public abstract class JSOModel extends JavaScriptObject {
     protected JSOModel() {
     }
 
+   
     /**
      * Create an empty instance.
      * 
@@ -77,6 +78,10 @@ public abstract class JSOModel extends JavaScriptObject {
 
     public final native void set(String key, String value) /*-{
         this[key] = value;
+    }-*/;
+    
+    public final native void set(String key, int value ) /*-{
+    	this[key] = value;
     }-*/;
 
     public final int getInt(String key) {

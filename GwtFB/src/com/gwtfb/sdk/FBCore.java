@@ -26,8 +26,12 @@ public class FBCore {
 	/**
 	 * Wrapper method
 	 */
-	public void api ( String method, JavaScriptObject params, JavaScriptObject resopnse ) {
-	}
+	public native void api ( String method, JavaScriptObject params, AsyncCallback<JavaScriptObject> callback ) /*-{
+		var app=this;
+		$wnd.FB.api (method, params, function(response){
+			app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
+		});
+	}-*/;
 
 	/**
 	 * Wrapper method

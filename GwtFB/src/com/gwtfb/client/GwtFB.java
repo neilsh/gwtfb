@@ -11,11 +11,15 @@ import com.gwtfb.sdk.FBXfbml;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
+ * @author ola
+ * 
  */
 public class GwtFB implements EntryPoint {
 
-	// public final String APPID = "1d81c942b38e2e6b3fc35a147d371ab3";
-	public final String APPID = "0d51db8fd8b95ef0c2337ccbdc00d736";
+	//public String APPID = "1d81c942b38e2e6b3fc35a147d371ab3";
+	
+	// prod
+	public String APPID = "0d51db8fd8b95ef0c2337ccbdc00d736";
 	private SimplePanel mainViewWrapper = new SimplePanel ();
 	
 	private FBCore fbCore = GWT.create(FBCore.class);
@@ -38,7 +42,9 @@ public class GwtFB implements EntryPoint {
 		root.add ( new TopMenu () );
 		root.add ( mainViewWrapper );
 	
+		//
 		// Callback used when session status is changed
+		//
 		class SessionChangeCallback extends Callback<JavaScriptObject> {
 			public void onSuccess ( JavaScriptObject response ) {
 				JSOModel obj = response.cast();
@@ -52,7 +58,10 @@ public class GwtFB implements EntryPoint {
 				}
 			}
 		}
+		
+		//
 		// Get notified when user session is changed
+		//
 		SessionChangeCallback sessionChangeCallback = new SessionChangeCallback ();
 		fbEvent.subscribe("auth.sessionChange",sessionChangeCallback);
 		
@@ -63,11 +72,14 @@ public class GwtFB implements EntryPoint {
 			}
 		}
 		LoginStatusCallback loginStatusCallback = new LoginStatusCallback ();
+		
+		// Get login status
 		fbCore.getLoginStatus( loginStatusCallback );
-		
-		
 	}
 	
+	/**
+	 * Render GUI
+	 */
 	private void renderApp ( JavaScriptObject response ) {
 		JSOModel obj = response.cast();
 		if ( obj.hasKey("session") ) {
@@ -77,18 +89,20 @@ public class GwtFB implements EntryPoint {
 		}
 		
 	}
-	
+
+	/**
+	 * Render GUI when logged in
+	 */
 	private void renderWhenLoggedIn () {
 		mainViewWrapper.setWidget ( new UserInfoViewController ( fbCore, fbXfbml ) );
 	}
 	
+	/**
+	 * Render GUI when not logged in
+	 */
 	private void renderWhenNotLoggedIn () {
 		mainViewWrapper.setWidget ( new MainWindowViewController () );
 		fbXfbml.parse();
 	}
-	
-	private native void reload () /*-{
-		$wnd.document.location.reload(true);
-		
-	}-*/;
+
 }
