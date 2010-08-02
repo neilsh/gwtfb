@@ -69,7 +69,7 @@ public class FBCore {
 	 * Wrapper method
 	 */
 	public native void login ( AsyncCallback<JavaScriptObject> callback ) /*-{
-		$wnd.FB.login (function(response){
+        $wnd.FB.login (function(response){
     	    app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
 		});
 	}-*/;
