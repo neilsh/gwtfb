@@ -19,7 +19,7 @@ public class FBCore {
 	public native void api ( String method, AsyncCallback<JavaScriptObject> callback ) /*-{
 		var app=this;
 		$wnd.FB.api (method, function(response){
-			app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
+	        app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
 		});
 	}-*/;
 	
@@ -37,7 +37,7 @@ public class FBCore {
 	 * Wrapper method
 	 */
 	public native void getLoginStatus ( Callback<JavaScriptObject> callback ) /*-{
-		var app=this;
+        var app=this;
 		$wnd.FB.getLoginStatus(function(response) {
             app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
 		});
@@ -67,32 +67,29 @@ public class FBCore {
 	
 	/**
 	 * Wrapper method
-	 * @see http://developers.facebook.com/docs/reference/javascript/FB.login
 	 */
 	public native void login ( AsyncCallback<JavaScriptObject> callback ) /*-{
 		$wnd.FB.login (function(response){
-    		app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
+    	    app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
 		});
 	}-*/;
 	
 	/**
 	 * Wrapper method
-	 * @see http://developers.facebook.com/docs/reference/javascript/FB.logout
 	 */
 	public native void logout ( AsyncCallback<JavaScriptObject> callback ) /*-{
 		$wnd.FB.logout(function(response){
-    		app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
+    	    app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
 		});
 	}-*/;
 	
 	/**
 	 * Wrapper method
-	 * @see http://developers.facebook.com/docs/reference/javascript/FB.ui
 	 */
 	public native void ui ( JavaScriptObject params, AsyncCallback<JavaScriptObject> callback ) /*-{
 		var app=this;
 		$wnd.FB.ui(params,function(response){
-    		app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
+    	    app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
 		});
 	}-*/;
 	
