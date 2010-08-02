@@ -56,7 +56,6 @@ public class UserInfoViewController extends Composite {
 		fbCore.api ( "/f8/posts",  new PostsCallback () );
 		
 		initWidget ( outer );
-		fbXfbml.parse();
 	}
 
 	

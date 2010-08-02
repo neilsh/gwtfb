@@ -95,6 +95,7 @@ public class GwtFB implements EntryPoint {
 	 */
 	private void renderWhenLoggedIn () {
 		mainViewWrapper.setWidget ( new UserInfoViewController ( fbCore, fbXfbml ) );
+		fbXfbml.parse();
 	}
 	
 	/**

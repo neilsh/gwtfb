@@ -29,7 +29,7 @@ public class FBCore {
 	public native void api ( String method, JavaScriptObject params, AsyncCallback<JavaScriptObject> callback ) /*-{
 		var app=this;
 		$wnd.FB.api (method, params, function(response){
-			app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
+		    app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
 		});
 	}-*/;
 
@@ -39,7 +39,7 @@ public class FBCore {
 	public native void getLoginStatus ( Callback<JavaScriptObject> callback ) /*-{
 		var app=this;
 		$wnd.FB.getLoginStatus(function(response) {
-    		app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
+            app.@com.gwtfb.sdk.FBCore::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
 		});
 		
 	}-*/;
