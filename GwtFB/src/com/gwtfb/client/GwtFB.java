@@ -3,6 +3,7 @@ package com.gwtfb.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.gwtfb.sdk.FBCore;
@@ -20,6 +21,7 @@ public class GwtFB implements EntryPoint {
 	
 	// prod
 	public String APPID = "0d51db8fd8b95ef0c2337ccbdc00d736";
+	
 	private SimplePanel mainViewWrapper = new SimplePanel ();
 	
 	private FBCore fbCore = GWT.create(FBCore.class);
@@ -39,9 +41,11 @@ public class GwtFB implements EntryPoint {
 		fbCore.init(APPID, status, cookie, xfbml);
 		
 		RootPanel root = RootPanel.get();
+		root.getElement().setId ( "TheApp" );
 		root.add ( new TopMenu () );
 		root.add ( mainViewWrapper );
-	
+		root.add ( new HTML ( "<hr/><fb:comments xid='gwtfb' />" ) );
+		
 		//
 		// Callback used when session status is changed
 		//
@@ -94,7 +98,7 @@ public class GwtFB implements EntryPoint {
 	 * Render GUI when logged in
 	 */
 	private void renderWhenLoggedIn () {
-		mainViewWrapper.setWidget ( new UserInfoViewController ( fbCore, fbXfbml ) );
+		mainViewWrapper.setWidget ( new UserInfoViewController ( fbCore ) );
 		fbXfbml.parse();
 	}
 	

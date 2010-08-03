@@ -22,6 +22,13 @@ public class FBEvent {
 		});
 	}-*/;
 	
+	public native void unsubscribe(String event, Callback<JavaScriptObject> callback ) /*-{
+	    var app=this;
+        $wnd.FB.Event.unsubscribe(event,function(response){
+            app.@com.gwtfb.sdk.FBEvent::callbackSuccess(Lcom/google/gwt/user/client/rpc/AsyncCallback;Lcom/google/gwt/core/client/JavaScriptObject;)(callback,response);
+        });
+	}-*/;
+	
 	/*
      * Called when method succeeded.
      */

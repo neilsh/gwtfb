@@ -4,10 +4,13 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -17,16 +20,46 @@ import com.gwtfb.sdk.FBXfbml;
 public class UserInfoViewController extends Composite {
 	
 	private VerticalPanel outer = new VerticalPanel ();
-	private FBXfbml fbXfbml;
+	private Anchor streamPublishLink = new Anchor ( "Test Stream Publish" );
+	private Anchor streamShareLink = new Anchor ( "Test Stream Share" );
 	
-	public UserInfoViewController ( final FBCore fbCore, final FBXfbml fbXfbml ) {
+	private FBCore fbCore;
+	
+	/**
+	 * New View
+	 */
+	public UserInfoViewController ( final FBCore fbCore ) {
 		
-		this.fbXfbml = fbXfbml;
+	    this.fbCore = fbCore;
 
 		outer.add ( new HTML ( "<fb:login-button autologoutlink='true'/>" ) );
 		outer.add ( new HTML ( "<p/>" ) );
 		
-		// Display info about current user
+		/*
+		 * Stream Publish 
+		 */
+		class PublishHandler implements ClickHandler {
+            public void onClick(ClickEvent event) {
+                testPublish ();
+            }
+		}
+		streamPublishLink.addClickHandler( new PublishHandler () );
+		outer.add ( streamPublishLink );
+		
+		/*
+		 * Stream Share
+		 */
+		class ShareHandler implements ClickHandler {
+		    public void onClick(ClickEvent event) {
+		        testShare ();
+		    }
+		}
+		streamShareLink.addClickHandler( new ShareHandler () );
+		outer.add ( streamShareLink );
+		
+		/*
+		 * Display User info
+		 */
 		class MeCallback extends Callback<JavaScriptObject> {
 			public void onSuccess ( JavaScriptObject response ) {
 				renderMe ( response );
@@ -34,42 +67,83 @@ public class UserInfoViewController extends Composite {
 		}
 		fbCore.api ( "/me" , new MeCallback () );
 		
-		// Display Friends Size
+		/*
+		 * Display number of friends
+		 */
 		class FriendsCallback extends Callback<JavaScriptObject> {
 			public void onSuccess ( JavaScriptObject response ) {
 				renderFriends ( response );
 			}
 		}
 		fbCore.api ( "/me/friends", new FriendsCallback () );
-	
-		// Display posts
+
+		/*
+		 * Display number of posts
+		 */
 		class PostsCallback extends Callback<JavaScriptObject> {
 			public void onSuccess ( JavaScriptObject response ) {
 				JSOModel model = response.cast ();
 				JsArray array = model.getArray("data");
 				outer.add ( new HTML ( "Posts " + array.length() ) );
-				
 			}
 		}
-
-	
 		fbCore.api ( "/f8/posts",  new PostsCallback () );
-		
 		initWidget ( outer );
 	}
 
-	
+	/**
+	 * Render information about logged in user
+	 */
 	private void renderMe ( JavaScriptObject response ) {
 		JSOModel jso = response.cast();
 		outer.add( new HTML ( "You are logged in as " + jso.get ( "name" ) ) );
 	}
-	
+
+	/**
+	 * Render friend statistics
+	 */
 	public void renderFriends ( JavaScriptObject response ) {
 		JSOModel jso = response.cast ();
-		
 		JsArray array = jso.getArray("data");
 		outer.add ( new HTML ( "You've got friends: " + (array != null ? array.length() : 0 ) ) );
+	}
 
+	/**
+	 * Render publish
+	 */
+	public void testPublish () {
+	    JSONObject data = new JSONObject ();
+	    data.put( "method", new JSONString ( "stream.publish" ) );
+	    data.put( "message", new JSONString ( "Getting education about Facebook Connect and GwtFB" ) );
+	    
+	    JSONObject attachment = new JSONObject ();
+	    attachment.put( "name", new JSONString ( "GwtFB" ) );
+	    attachment.put("caption", new JSONString ( "The Facebook Connect Javascript SDK and GWT" ) );
+	    attachment.put( "description", new JSONString ( "A small GWT library that allows you to interact with Facebook Javascript SDK in GWT ") ); 
+	    attachment.put("href",  new JSONString ( "http://www.gwtfb.com" ) );
+	    data.put( "attachment", attachment );
 
+	    JSONObject actionLink = new JSONObject ();
+	    actionLink.put ( "text", new JSONString ( "Code" ) );
+	    actionLink.put ( "href", new JSONString ( "http://www.gwtfb.com" ) );
+
+	    JSONArray actionLinks = new JSONArray ();
+	    actionLinks.set(0, actionLink);
+	    data.put( "action_links", actionLinks);
+
+	    data.put( "user_message_prompt", new JSONString ( "Share your thoughts about Connect and GWT" ) );
+	    
+	    fbCore.ui(data.getJavaScriptObject(), new LogCallback () );
+	    
+	}
+	
+	/**
+	 * Render share
+	 */
+	public void testShare () {
+	    JSONObject data = new JSONObject ();
+	    data.put( "method", new JSONString ( "stream.share" ) );
+	    data.put( "u", new JSONString ( "http://www.gwtfb.com" ) );
+	    fbCore.ui ( data.getJavaScriptObject(), new LogCallback () );
 	}
 }
